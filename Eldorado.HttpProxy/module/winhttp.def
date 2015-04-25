@@ -1,0 +1,14 @@
+LIBRARY
+
+EXPORTS
+	WinHttpCloseHandle       @8
+    WinHttpConnect           @9
+	WinHttpOpen              @16
+	WinHttpOpenRequest       @17
+	WinHttpQueryHeaders      @20
+	WinHttpQueryOption       @21
+	WinHttpReadData          @22
+	WinHttpReceiveResponse   @23
+	WinHttpSendRequest       @24
+	WinHttpSetStatusCallback @28
+	WinHttpSetTimeouts       @29
