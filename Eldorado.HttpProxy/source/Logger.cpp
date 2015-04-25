@@ -3,7 +3,7 @@
 #include <time.h>
 #include <iomanip>
 
-Logger::Logger(const _TCHAR* log_file)
+Logger::Logger(const wchar_t* log_file)
 {
 	log_stream.open(log_file, std::ios::out | std::ios::app);
 }
@@ -18,23 +18,8 @@ void Logger::Log(std::wstring message)
 	time_t time = std::time(nullptr);
 	tm localtime;
 	localtime_s(&localtime, &time);
-	log_stream << _T("[") << std::put_time(&localtime, _T("%d.%m.%Y %H:%M:%S")) << _T("] ");
-	log_stream << message.c_str() << _T("\n") << std::flush;
-}
-
-void Logger::LogFormat(const _TCHAR* format, ...)
-{
-	const int messageSize = 131072;
-	_TCHAR message[messageSize];
-	va_list args;
-	va_start(args, format);
-	_vstprintf_s(message, messageSize, format, args);
-	time_t time = std::time(nullptr);
-	tm localtime;
-	localtime_s(&localtime, &time);
-	log_stream << _T("[") << std::put_time(&localtime, _T("%d.%m.%Y %H:%M:%S")) << _T("] ");
-	log_stream << message << _T("\n") << std::flush;
-	va_end(args);
+	log_stream << L"[" << std::put_time(&localtime, L"%d.%m.%Y %H:%M:%S") << L"] ";
+	log_stream << message.c_str() << L"\n" << std::flush;
 }
 
 void Logger::LogFormatA(const char* format, ...)
