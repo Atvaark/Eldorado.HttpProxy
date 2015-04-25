@@ -1,8 +1,10 @@
+#include <string>
+
 #include <Windows.h>
 #include <tchar.h>
-#include "winhttp_functions.h"
 #include "Logger.h"
-#include <string>
+
+#include "winhttp_functions.h"
 
 // globals
 
@@ -71,8 +73,23 @@ HINTERNET WINAPI WinHttpOpenRequest(
 	IN DWORD dwFlags
 	)
 {
-	theLogger().LogFormatW(L"Calling WinHttpOpenRequest(%x, %s, %s, %s, %s, %s, %d)", hConnect, pwszVerb, pwszObjectName, pwszVersion, pwszReferrer, ppwszAcceptTypes, dwFlags);
-	HINTERNET result = oWinHttpOpenRequest(hConnect, pwszVerb, pwszObjectName, pwszVersion, pwszReferrer, ppwszAcceptTypes, dwFlags);
+	theLogger().LogFormatW(
+		L"Calling WinHttpOpenRequest(%x, %s, %s, %s, %s, %s, %d)",
+		hConnect,
+		pwszVerb,
+		pwszObjectName,
+		pwszVersion,
+		pwszReferrer,
+		ppwszAcceptTypes,
+		dwFlags);
+	HINTERNET result = oWinHttpOpenRequest(
+		hConnect,
+		pwszVerb,
+		pwszObjectName,
+		pwszVersion,
+		pwszReferrer,
+		ppwszAcceptTypes,
+		dwFlags);
 	theLogger().LogFormat(_T("WinHttpOpenRequest(%x, ...) returned %x"), hConnect, result);
 	return result;
 }
@@ -112,7 +129,11 @@ BOOL WINAPI WinHttpQueryHeaders(
 	default:
 		break;
 	}
-	theLogger().LogFormatW(L"WinHttpQueryHeaders(%x, %d, ... ) returned: %s: %s", hRequest, dwInfoLevel, headerName.c_str(), headerValue.c_str());
+	theLogger().LogFormatW(
+		L"WinHttpQueryHeaders(%x, %d, ... ) returned: %s: %s",
+		hRequest, dwInfoLevel,
+		headerName.c_str(),
+		headerValue.c_str());
 	return result;
 }
 
@@ -169,7 +190,14 @@ BOOL WINAPI WinHttpSendRequest(
 	std::string body = dwOptionalLength == -1 ? std::string(pBody) : std::string(pBody, dwOptionalLength);
 	theLogger().LogFormatA("WinHttpSendRequest(%x, ...) called with body: %s", hRequest, body.c_str());
 
-	return oWinHttpSendRequest(hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext);
+	return oWinHttpSendRequest(
+		hRequest,
+		lpszHeaders,
+		dwHeadersLength,
+		lpOptional,
+		dwOptionalLength,
+		dwTotalLength,
+		dwContext);
 }
 
 WINHTTP_STATUS_CALLBACK WINAPI WinHttpSetStatusCallback(
@@ -191,7 +219,13 @@ BOOL WINAPI WinHttpSetTimeouts(
 	IN int nReceiveTimeout
 	)
 {
-	theLogger().LogFormat(_T("Calling WinHttpSetTimeouts(%x, %d, %d, %d, %d)"), hInternet, nResolveTimeout, nConnectTimeout, nSendTimeout, nReceiveTimeout);
+	theLogger().LogFormat(
+		_T("Calling WinHttpSetTimeouts(%x, %d, %d, %d, %d)"),
+		hInternet,
+		nResolveTimeout,
+		nConnectTimeout,
+		nSendTimeout,
+		nReceiveTimeout);
 	return oWinHttpSetTimeouts(hInternet, nResolveTimeout, nConnectTimeout, nSendTimeout, nReceiveTimeout);
 }
 
@@ -260,14 +294,14 @@ HMODULE LoadOriginalDll()
 
 void InitializeDll(HINSTANCE hInstance)
 {
-	theLogger().LogFormat(_T("####################################################################################################"));
+	theLogger().LogFormat(_T("("###############################################"));
 	theLogger().LogFormat(_T("Initializing the winhttp proxy dll"));
 	DisableThreadLibraryCalls(hInstance);
 	g_proxy_dll_hInstance = hInstance;
 	g_original_dll_hInstance = LoadOriginalDll();
 	InitializeOriginalDllFunctions();
 	theLogger().LogFormat(_T("Proxy dll initialized"));
-	theLogger().LogFormat(_T("####################################################################################################"));
+	theLogger().LogFormat(_T("("###############################################"));
 }
 
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD reason, LPVOID /*reserved*/)

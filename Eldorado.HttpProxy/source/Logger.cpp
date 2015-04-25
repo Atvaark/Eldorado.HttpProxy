@@ -18,7 +18,8 @@ void Logger::Log(std::wstring message)
 	time_t time = std::time(nullptr);
 	tm localtime;
 	localtime_s(&localtime, &time);
-	log_stream << _T("[") << std::put_time(&localtime, _T("%d.%m.%Y %H:%M:%S")) << _T("] ") << message.c_str() << _T("\n") << std::flush;
+	log_stream << _T("[") << std::put_time(&localtime, _T("%d.%m.%Y %H:%M:%S")) << _T("] ");
+	log_stream << message.c_str() << _T("\n") << std::flush;
 }
 
 void Logger::LogFormat(const _TCHAR* format, ...)
@@ -31,7 +32,8 @@ void Logger::LogFormat(const _TCHAR* format, ...)
 	time_t time = std::time(nullptr);
 	tm localtime;
 	localtime_s(&localtime, &time);
-	log_stream << _T("[") << std::put_time(&localtime, _T("%d.%m.%Y %H:%M:%S")) << _T("] ") << message << _T("\n") << std::flush;
+	log_stream << _T("[") << std::put_time(&localtime, _T("%d.%m.%Y %H:%M:%S")) << _T("] ");
+	log_stream << message << _T("\n") << std::flush;
 	va_end(args);
 }
 

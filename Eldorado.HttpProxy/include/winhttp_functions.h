@@ -1,3 +1,4 @@
+#pragma once
 #include <Windows.h>
 
 // WINHTTP_QUERY_RAW_HEADERS
