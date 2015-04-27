@@ -158,6 +158,7 @@ BOOL WINAPI WinHttpReadData(
 	BOOL result = oWinHttpReadData(hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead);
 	std::string readData = std::string(static_cast<char*>(lpBuffer), dwNumberOfBytesToRead);
 	theLogger().LogFormatA("WinHttpReadData(%x, ...) returend: %s", hRequest, readData.c_str());
+	theLogger().LogRawData(L"rd_", reinterpret_cast<const char*>(lpBuffer), dwNumberOfBytesToRead);
 	return result;
 }
 

@@ -1,7 +1,9 @@
 #include "Logger.h"
+#include <fstream>
+#include <iomanip>
 #include <stdarg.h>
 #include <time.h>
-#include <iomanip>
+#include <Windows.h>
 
 Logger::Logger(const wchar_t* log_file)
 {
@@ -45,4 +47,25 @@ void Logger::LogFormatW(const wchar_t* format, ...)
 	vswprintf_s(message, messageSize, format, args);
 	Log(message);
 	va_end(args);
+}
+
+void Logger::LogRawData(std::wstring filePrefix, const char* data, const int dataLength)
+{
+	std::wstring filePath = L"winhttp";
+	CreateDirectory(filePath.c_str(), nullptr);	
+	wchar_t tempFilePath[MAX_PATH];
+	GetTempFileName(filePath.c_str(), filePrefix.c_str(), 0, tempFilePath);
+
+	LogFormatW(L"Logging raw data to %s", tempFilePath);
+
+	std::ofstream outfile;
+	outfile.open(tempFilePath, std::ios::binary | std::ios::out);
+	if (!outfile.is_open())
+	{
+		LogFormatW(L"Logging raw data to %s failed. Could not create temporary file.", tempFilePath);
+		return;
+	}
+	outfile.write(data, dataLength);
+	LogFormatW(L"Logged %d bytes raw data to %s", dataLength, tempFilePath);
+	outfile.close();
 }

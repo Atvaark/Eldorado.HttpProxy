@@ -2,7 +2,7 @@ LIBRARY
 
 EXPORTS
 	WinHttpCloseHandle       @8
-    WinHttpConnect           @9
+	WinHttpConnect           @9
 	WinHttpOpen              @16
 	WinHttpOpenRequest       @17
 	WinHttpQueryHeaders      @20
