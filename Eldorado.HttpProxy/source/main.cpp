@@ -189,6 +189,7 @@ BOOL WINAPI WinHttpSendRequest(
 	char* pBody = static_cast<char*>(lpOptional);
 	std::string body = dwOptionalLength == -1 ? std::string(pBody) : std::string(pBody, dwOptionalLength);
 	theLogger().LogFormatA("WinHttpSendRequest(%x, ...) called with body: %s", hRequest, body.c_str());
+	theLogger().LogRawData(L"sr_", pBody, dwOptionalLength);
 
 	return oWinHttpSendRequest(
 		hRequest,
